@@ -71,21 +71,26 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @minimum = "Replace this string with your answer."
+    @minimum = @sorted_numbers.first
 
-    @maximum = "Replace this string with your answer."
+    @maximum = @sorted_numbers.last
 
-    @range = "Replace this string with your answer."
+    @range = @maximum - @minimum
 
-    @median = "Replace this string with your answer."
+    @median = (
+        if @count.to_i.odd?
+            @sorted_numbers.at(@count.to_i/2 + 1)
+        else
+            (@sorted_numbers.at(@count/2)+@sorted_numbers.at(@count/2+1))/2
+        end)
 
-    @sum = "Replace this string with your answer."
+    @sum = sum_array(@sorted_numbers)
 
-    @mean = "Replace this string with your answer."
+    @mean = @sum/@count
 
     @variance = "Replace this string with your answer."
 
@@ -93,4 +98,18 @@ class CalculationsController < ApplicationController
 
     @mode = "Replace this string with your answer."
   end
+
+
+  def sum_array number_array
+    if number_array.count == 0
+        return 0
+    else
+        number_array.pop + sum_array(number_array)
+    end
+  end
+
+
+
+
+
 end
