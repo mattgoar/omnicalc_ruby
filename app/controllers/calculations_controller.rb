@@ -10,14 +10,17 @@ class CalculationsController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
+    @text_array = @text.split
+    @word_array = @text_array.find_all{|a| a == @special_word}
 
-    @character_count_with_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.length
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @character_count_without_spaces = (@text.gsub(' ','')).length
 
-    @word_count = "Replace this string with your answer."
+    @word_count =  @text_array.count
 
-    @occurrences = "Replace this string with your answer."
+    @occurrences = @word_array.count
+
   end
 
   def loan_payment
