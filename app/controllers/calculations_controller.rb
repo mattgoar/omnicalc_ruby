@@ -88,13 +88,13 @@ class CalculationsController < ApplicationController
             (@sorted_numbers.at(@count/2)+@sorted_numbers.at(@count/2+1))/2
         end)
 
-    @sum = sum_array(@sorted_numbers)
+    @sum = sum_array(Array.new(@sorted_numbers))
 
     @mean = @sum/@count
 
-    @variance = "Replace this string with your answer."
+    @variance = square_array(Array.new(@sorted_numbers), @mean)/@count
 
-    @standard_deviation = "Replace this string with your answer."
+    @standard_deviation = Math.sqrt(@variance)
 
     @mode = "Replace this string with your answer."
   end
@@ -108,6 +108,13 @@ class CalculationsController < ApplicationController
     end
   end
 
+  def square_array(number_array, array_mean)
+    if number_array.count == 0
+        return 0
+    else
+        return (number_array.pop - array_mean)**2 + square_array(number_array, array_mean)
+    end
+  end
 
 
 
