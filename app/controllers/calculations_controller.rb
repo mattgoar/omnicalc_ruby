@@ -96,7 +96,7 @@ class CalculationsController < ApplicationController
 
     @standard_deviation = Math.sqrt(@variance)
 
-    @mode = "Replace this string with your answer."
+    @mode = mode_array(Array.new(@sorted_numbers))
   end
 
 
@@ -116,7 +116,26 @@ class CalculationsController < ApplicationController
     end
   end
 
+  def mode_array(number_array)
+    # I found an example of using inject to find the mode on stack overflow
+    # I modified the example because I did not understand the original construct
+    # Post here: http://stackoverflow.com/questions/412169/ruby-how-to-find-item-in-array-which-has-the-most-occurrences
+    # Inject help here: http://blog.jayfields.com/2008/03/ruby-inject.html
+    #
+    # This creates a new hash where the keys are the values in the original array and the values are the number of times that
+    # each key appears
+    @frequency = number_array.inject(Hash.new(0)) do |h,v|
+        h[v] = h[v] + 1
+        h
+    end
+    # HASH.values returns array populated with values from the hash
+    # Enum.max returns max value
+    @max = @frequency.values.max
 
+    # Now only select the keys where the value matches the maximum value
+    @modes = @frequency.select { |k, f| f == @max}
 
-
+    # Now return only the hash keys in a comma seperated list
+    return @modes.keys.join(", ")
+    end
 end
